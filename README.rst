@@ -3,7 +3,7 @@ Overview
 
 Welcome to TrinityX!
 
-TrinityX is the new generation of ClusterVision's open-source HPC platform. It is designed from the ground up to provide all services required in a modern HPC system, and to allow full customization of the installation. Also it includes optional modules for specific needs, such as an OpenStack cloud, Docker on the compute nodes and the ability to partition a cluster.
+TrinityX is the new generation of ClusterVision's open-source HPC platform. It is designed from the ground up to provide all services required in a modern HPC system, and to allow full customization of the installation. Also it includes optional modules for specific needs, such as an OpenStack cloud and Docker on the compute nodes.
 
 The full documentation is available in the ``doc`` subdirectory. See the instructions how to build it below.
 
@@ -39,7 +39,7 @@ Steps to install TrinityX
 
 4. Setup luna repository::
 
-    # curl http://rpmbuild.clustervision.com/luna/1.2/centos/7/x86_64/luna-1.2.repo > /etc/yum.repos.d/luna-1.2.repo
+    # curl https://updates.clustervision.com/luna/1.2/centos/luna-1.2.repo > /etc/yum.repos.d/luna-1.2.repo
 
 5. Install ``git``, ``ansible`` and ``luna-ansible``::
 
@@ -70,27 +70,28 @@ Steps to install TrinityX
 
 9. Configure ``hosts`` file to allow ansible to address controllers.
 
+   Example for non-HA setup::
 
-    Example for non-HA setup::
+       [controllers]
+       controller ansible_host=10.141.255.254
 
-        [controllers]
-        controller ansible_host=10.141.255.254
+   Example for HA setup::
 
-    Example for HA setup::
-
-        [controllers]
-        controller1 ansible_host=10.141.255.254
-        controller2 ansible_host=10.141.255.253
+       [controllers]
+       controller1 ansible_host=10.141.255.254
+       controller2 ansible_host=10.141.255.253
 
 10. Start TrinityX installation::
 
-     # ansible-playbook controller.yml |& tee -a install.log
+     # ansible-playbook controller.yml
 
-   **Note**: If errors are encoutered during the installation process, analyze the error(s) in the output and try to fix it then re-run the installer.
+    **Note**: If errors are encoutered during the installation process, analyze the error(s) in the output and try to fix it then re-run the installer.
+
+    **Note**: By default, the installation logs will be available at ``/var/log/trinity.log``
 
 11. Create a default OS image::
 
-    # ansible-playbook compute.yml |& tee -a image.log
+    # ansible-playbook compute.yml
 
 Now you have your controller(s) installed and the default OS image created!
 

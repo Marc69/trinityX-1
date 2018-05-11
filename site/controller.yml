@@ -12,7 +12,8 @@
     - role: trinity/repos
       repos:
       - repo: epel-release
-      - repo: http://rpmbuild.clustervision.com/trinity/tr17/centos/7/clustervision-master-repo-1.0-tr17.el7.centos.x86_64.rpm
+      - repo: https://updates.clustervision.com/userspace/userspace-release.x86_64.rpm
+      - repo: https://updates.clustervision.com/luna/1.2/centos/luna-1.2.repo
       tags: repos
 
     - role: trinity/cv_support
@@ -164,6 +165,14 @@
 
     - role: trinity/zabbix_agent
       tags: zabbix_agent
+
+    - role: trinity/docker-registry
+      when: enable_docker
+      docker_registry_path: '{{ trix_local }}/docker-registry'
+      docker_ssl_path: '{{ ssl_cert_path }}'
+      docker_ssl_cert: '{{ ansible_fqdn }}.crt'
+      docker_ssl_key: '{{ ansible_fqdn }}.key'
+      tags: docker-registry
 
     - role: trinity/wrapup
       tags: wrapup
