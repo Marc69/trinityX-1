@@ -22,12 +22,13 @@
     regexp: enabled=1
     replace: enabled=0
 
-- name: Enable elrepo-testing
+- name: Disable elrepo-testing
   ini_file:
     dest: /etc/yum.repos.d/elrepo.repo
     section: elrepo-testing
     option: enabled
     value: 0
+  when: testing_repos
   
 - name: Set up DRBD common settings configuration file
   template:
