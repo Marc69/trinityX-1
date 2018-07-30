@@ -4,15 +4,6 @@
 # Keep in mind that this role applies to the controllers
 # as well as compute nodes and images
 
-# https://github.com/ansible/ansible-modules-extras/issues/2384
-- name: Enable CentOS-CR
-  ini_file:
-    dest: /etc/yum.repos.d/CentOS-CR.repo
-    section: cr
-    option: enabled
-    value: 1
-  when: testing_repos
-
 - name: Install init packages
   yum:
     name: '{{ item }}'

@@ -37,6 +37,8 @@ tunables_packages:
   - kernel-headers
   - kernel-tools
   - less
+  - libevent
+  - libevent-devel
   - libfabric
   - libgfortran
   - libibverbs
@@ -57,8 +59,11 @@ tunables_packages:
   - mtr
   - nc
   - ncurses-term
+  - net-snmp-utils
   - net-tools
   - numactl
+  - numactl-libs
+  - numactl-devel
   - openssh-clients
   - openssh-server
   - parted
@@ -68,6 +73,8 @@ tunables_packages:
   - pdsh-mod-dshgroup
   - pdsh-mod-genders
   - perf
+  - pmix
+  - pmix-devel
   - policycoreutils-python
   - psmisc
   - python-hostlist

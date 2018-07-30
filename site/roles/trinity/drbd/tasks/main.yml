@@ -1,14 +1,5 @@
 ---
 
-# https://github.com/ansible/ansible-modules-extras/issues/2384
-- name: Enable elrepo-testing
-  ini_file:
-    dest: /etc/yum.repos.d/elrepo.repo
-    section: elrepo-testing
-    option: enabled
-    value: 1
-  when: testing_repos
- 
 - name: Install DRBD packages
   yum:
     name: '{{ item }}'
@@ -22,14 +13,6 @@
     regexp: enabled=1
     replace: enabled=0
 
-- name: Disable elrepo-testing
-  ini_file:
-    dest: /etc/yum.repos.d/elrepo.repo
-    section: elrepo-testing
-    option: enabled
-    value: 0
-  when: testing_repos
-  
 - name: Set up DRBD common settings configuration file
   template:
     src: global_common.conf
