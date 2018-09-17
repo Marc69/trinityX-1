@@ -12,8 +12,6 @@
     - role: trinity/repos
       repos:
       - repo: epel-release
-      - repo: https://updates.clustervision.com/userspace/userspace-release.x86_64.rpm
-      - repo: https://updates.clustervision.com/luna/1.2/centos/luna-1.2.repo
       tags: repos
 
     - role: trinity/cv_support
@@ -73,8 +71,11 @@
       tags: nfs
 
     - role: trinity/environment-modules
-      modulefiles_path: '{{ trix_shared }}/modules'
       tags: environment-modules
+
+    - role: trinity/pdsh
+      pdsh_conf_path: '{{ trix_local }}/etc/dsh'
+      tags: pdsh
 
     - role: trinity/ssl-cert
       ssl_cert_country: 'NL'
@@ -169,6 +170,12 @@
 
     - role: trinity/zabbix_agent
       tags: zabbix_agent
+
+    - role: trinity/zabbix_checks
+      tags: zabbix_checks
+
+    - role: trinity/trix-status
+      tags: trix-status
 
     - role: trinity/docker-registry
       when: enable_docker
