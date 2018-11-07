@@ -6,6 +6,7 @@
     name: '{{ item }}'
     state: present
   with_items: '{{ bind_packages }}'
+  tags: install-only
 
 - name: Ensure {{ bind_db_path }} exists
   file:
@@ -38,6 +39,13 @@
     path: /etc/named.conf
     line: 'dnssec-enable {{ "yes" if bind_dnssec_enable else "no"}};'
     regexp: 'dnssec-enable'
+  notify: restart named
+
+- name: Toggle DNSSEC validation
+  lineinfile:
+    path: /etc/named.conf
+    line: 'dnssec-validation {{ "yes" if bind_dnssec_enable else "no"}};'
+    regexp: 'dnssec-validation'
   notify: restart named
 
 - name: Configure named forwarders

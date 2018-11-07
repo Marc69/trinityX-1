@@ -18,9 +18,13 @@
     name: '{{ item }}'
     state: present
   with_items: '{{ zabbix_packages }}'
-  notify:
-  - restart zabbix-server
-  - restart httpd
+  tags: install-only
+
+- name: Stop and disable httpd
+  service:
+    name: httpd
+    state: stopped
+    enabled: no
 
 - name: Figure out timezone name
   shell: >
@@ -32,14 +36,27 @@
   set_fact:
     zabbix_timezone: "{{ timezone_link.stdout }}"
 
-- name: Create httpd config for zabbix
+- name: Create nginx config for zabbix
   template:
-    src: httpd_zabbix.conf.j2
-    dest: /etc/httpd/conf.d/zabbix.conf
+    src: nginx_zabbix.conf
+    dest: /etc/nginx/conf.d/zabbix.conf
     backup: yes
   notify:
-  - restart zabbix-server
-  - restart httpd
+  - reload nginx
+
+- name: Create php-fpm config for zabbix
+  template:
+    src: php-fpm_zabbix.conf.j2
+    dest: /etc/php-fpm.d/zabbix.conf
+    backup: yes
+  notify:
+  - restart php-fpm
+
+- name: Enable and start php-fpm
+  service:
+    name: php-fpm
+    state: started
+    enabled: yes
 
 - name: Create web-config for zabbix
   template:
@@ -48,7 +65,6 @@
     backup: yes
   notify:
   - restart zabbix-server
-  - restart httpd
 
 - name: Create zabbix_server config
   template:
@@ -84,7 +100,6 @@
       state: present
     notify:
     - restart zabbix-server
-    - restart httpd
 
   - name: Get dump file
     shell: >
@@ -108,7 +123,6 @@
     when: zabbix_db_exists.rc != 0
     notify:
     - restart zabbix-server
-    - restart httpd
 
   when: primary | default(True)
 
@@ -165,6 +179,14 @@
       zabbix_admin_pwd: "{{ lookup('password',
                             '/etc/trinity/passwords/zabbix/admin.txt
                              chars=ascii_letters,digits,hexdigits') }}"
+
+  - name: Check if zabbix on nginx pages are served as expected
+    uri:
+      url: 'https://localhost/zabbix/index.php'
+      validate_certs: no
+      return_content: yes
+    register: result
+    failed_when: '"Sign in" not in result.content'
 
 ###############################################################################
 #  Check password

@@ -2,6 +2,8 @@ Ansible Roles overview
 ======================
 
 - init: checks if primary controller, disables SElinux, removes NetworkManager
+- local_repo: creates repository from DVD or USB with TrinityX DVD content on the controller
+- repos: role to install repositories on the controller and images. Usually it is used as a dependency in other roles
 - cv_support: installs remote assistance script, trinity health package, updates root's bashrc
 - packages: installs all required diag packages required on a proper HPC head node. See roles/packages/defaults/main.yml
 - tunables: updates limits.conf and sysctl.conf
@@ -15,7 +17,7 @@ Ansible Roles overview
 - drbd: creates DRBD filesystem, adds resources to pacemaker
 - trix-tree: just creates /trinity
 - nfs: configures NFS export, adds resources to pacemaker
-- environment-modules: prepares module environment. Does NOT install applications, this remains a manual task
+- environment-modules: prepares module environment and installs a default set of applications, see :ref:`tab_envmodules_role`.
 - ssl-cert: generates SSL certs for HTTPS and LDAPS
 - openldap: installs OpenLDAP and configures schema
 - obol: installs and configures obol (user management tool)
@@ -28,5 +30,7 @@ Ansible Roles overview
 - luna: installs and configures luna
 - rsyslog: installs and configures syslog
 - zabbix: installs and configures Zabbix (monitoring)
-
-
+- zabbix_agent: installs Zabbix agent on controllers and images
+- zabbix_checks: installs additional check scripts and configures templates on Zabbix server
+- trix-status: installs trix-status - tool for getting TrinityX cluster overview
+- docker-registry: installs and configures docker registry
