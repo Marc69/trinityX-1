@@ -4,9 +4,14 @@
 
 - name: Install pdsh packages
   yum:
+<<<<<<< HEAD
     name: '{{ item }}'
     state: present
   with_items: '{{ pdsh_packages }}'
+=======
+    name: '{{ pdsh_packages }}'
+    state: present
+>>>>>>> 84f5cf121eec16a2d50fc7d58f51f5794cfbd434
   tags: install-only
 
 - name: Ensure {{ pdsh_conf_path }} exists

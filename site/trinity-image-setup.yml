@@ -79,8 +79,12 @@
       level: '*'
     tags: rsyslog
 
-  - role: trinity/zabbix_agent
-    tags: zabbix_agent
+#  - role: trinity/zabbix_agent
+#    tags: zabbix_agent
+
+  - role: trinity/zabbix_checks
+    zabbix_hostmetadata: "{{ image_name }}"
+    tags: zabbix_checks
 
   - role: trinity/zabbix_checks
     tags: zabbix_checks
