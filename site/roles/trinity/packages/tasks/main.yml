@@ -1,0 +1,14 @@
+---
+# Install additional packages and tunables
+
+- name: Install prereq packages
+  yum:
+    name: '{{ packages_packages }}'
+    state: present
+  tags: install-only
+
+- name: Install additional packages
+  yum:
+    name: '{{ tunables_packages }}'
+    state: present
+  tags: install-only
