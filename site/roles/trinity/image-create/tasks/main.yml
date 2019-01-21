@@ -33,7 +33,7 @@
 ### Workaround until it's fixed.
 ###
 
--name: Add releasever variable
+- name: Add releasever variable
   copy:
     content: "{{ ansible_distribution_major_version }}\n"
     dest: "{{ image_path }}/etc/yum/vars/releasever"
