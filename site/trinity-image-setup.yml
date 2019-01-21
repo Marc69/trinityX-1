@@ -86,9 +86,6 @@
     zabbix_hostmetadata: "{{ image_name }}"
     tags: zabbix_checks
 
-  - role: trinity/zabbix_checks
-    tags: zabbix_checks
-
   - role: trinity/docker
     when: enable_docker
     tags: docker
